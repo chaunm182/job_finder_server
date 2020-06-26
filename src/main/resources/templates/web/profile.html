@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/web.html}"
+      lang = "en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="au-breadcrumb2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="au-breadcrumb-content">
+                        <div class="au-breadcrumb-left">
+                        </div>
+                        <form class="au-form-icon--sm" action="" method="post">
+                            <input class="au-input--w435 au-input--style2" type="text" placeholder="Tìm kiếm việc làm...">
+                            <button class="au-btn--submit2" type="submit">
+                                <i class="zmdi zmdi-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="p-t-15">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="mx-auto d-block">
+                                <img class="rounded-circle mx-auto d-block" th:src="@{/images/profile_default.jpg}" alt="Card image cap">
+                                <h5 class="text-sm-center mt-2 mb-1" th:text="${session.account.fullName.firstName}+' '+${session.account.fullName.lastName}"></h5>
+                                <div class="location text-sm-center" th:text="${session.account.profile.position}">
+                                    </div>
+                            </div>
+                            <hr>
+                            <div class="card-text text-sm-center">
+                                <a href="#">
+                                    <i class="fa fa-facebook pr-1"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-twitter pr-1"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-linkedin pr-1"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-pinterest pr-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card m-t-10">
+                        <div class="card-header">
+                            <strong class="card-title">Thông tin cá nhân</strong>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text"><strong>Số điện thoại: </strong><span th:text="${session.account.phone}"></span></p>
+                            <p class="card-text"><strong>Email: </strong><span th:text="${session.account.account.email}"></span></p>
+                            <p class="card-text"><strong>Địa chỉ: </strong><span th:if="${session.account.address}" th:text="${session.account.address.addressDetail}+', '+${session.account.address.street}+', '+${session.account.address.district}+', '+${session.account.address.city}"></span></p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button id="btn-update-infomation" type="button" data-toggle="modal" data-target="#add-education-modal" class="btn btn-outline-success">
+                                <i class="fa fa-pencil"></i>&nbsp; Sửa thông tin cá nhân</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+<!--                    EDUCATION-->
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">Học vấn</strong>
+                        </div>
+                        <div class="card-body">
+                            <a id="url-education" th:href="@{/api/educations}" style="display: none"></a>
+                            <div class="table-responsive table-responsive-data2">
+                                <table class="table table-data2">
+                                    <tbody>
+                                    <p th:if="${educations.size()==0}" th:text="'Vui lòng thêm phần học vấn vào mục này'"></p>
+                                    <th:block th:each="education : ${educations}">
+                                        <tr>
+                                            <td>
+                                                <h4 th:text="${education.schoolName}"></h4>
+                                                <p th:text="${education.description}"></p>
+                                                <p th:text="${#dates.year(education.startAt)}+'-'+${#dates.year(education.endAt)}"></p>
+                                            </td>
+                                            <td>
+                                                <div class="table-data-feature">
+                                                    <button class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit">
+                                                        <i class="zmdi zmdi-edit"></i>
+                                                    </button>
+                                                    <button th:education-id="${education.id}" onclick="deleteEducation(this)" class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xóa">
+                                                        <i class="zmdi zmdi-delete"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </th:block>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button id="add-education" type="button" data-toggle="modal" data-target="#add-education-modal" class="btn btn-outline-success">
+                                <i class="fa fa-pencil"></i>&nbsp; Thêm học vấn</button>
+                        </div>
+                    </div>
+<!--                    END OF EDUCATION-->
+
+<!--                    SKILL-->
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">Kỹ năng</strong>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-responsive-data2">
+                                <table class="table table-data2">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <h4>Java cơ bản</h4>
+                                            <p>Mô tả: kiến thức cơ bản về java, lập trình hướng đối tượng,... </p>
+                                        </td>
+                                        <td>
+                                            <div class="table-data-feature">
+                                                <button class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit">
+                                                    <i class="zmdi zmdi-edit"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="button" class="btn btn-outline-success">
+                                <i class="fa fa-pencil"></i>&nbsp; Thêm kỹ năng</button>
+                        </div>
+                    </div>
+<!--                    END OF SKILL-->
+
+<!--                    CERTIFICATION-->
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">Chứng chỉ</strong>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-responsive-data2">
+                                <table class="table table-data2">
+                                    <tbody>
+                                    <p>Chưa có chứng chỉ nào</p>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="button" class="btn btn-outline-success">
+                                <i class="fa fa-pencil"></i>&nbsp; Thêm chứng chỉ</button>
+                        </div>
+                    </div>
+<!--                    END OF CERTIFICATION-->
+
+<!--                    PRIZE-->
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">Giải thưởng</strong>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-responsive-data2">
+                                <table class="table table-data2">
+                                    <tbody>
+                                    <p>Chưa có giải thưởng nào</p>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="button" class="btn btn-outline-success">
+                                <i class="fa fa-pencil"></i>&nbsp; Thêm giải thưởng</button>
+                        </div>
+                    </div>
+<!--                    END OF PRIZE-->
+
+<!--                    PROJECT-->
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">Dự án tham gia</strong>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-responsive-data2">
+                                <table class="table table-data2">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <h4>Xây dựng hệ thống tìm việc nhanh</h4>
+                                            <p>01/2020 - Hiện tại</p>
+                                            <p>Vị trí làm việc: Project manager </p>
+                                            <p>Công nghệ sử dụng: Spring</p>
+                                        </td>
+                                        <td>
+                                            <div class="table-data-feature">
+                                                <button class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sửa">
+                                                    <i class="zmdi zmdi-edit"></i>
+                                                </button>
+                                                <button class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xóa">
+                                                    <i class="zmdi zmdi-delete"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="button" class="btn btn-outline-success">
+                                <i class="fa fa-pencil"></i>&nbsp; Thêm dự án</button>
+                        </div>
+                    </div>
+<!--                    END OF PROJECT-->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="modal"></div>
+</div>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $('#add-education').on('click',function () {
+            var url = /*[[@{/profile/education}]]*/'';
+            $('#modal').load(url, function () {
+                $('#save-education-modal').modal('toggle')
+            });
+        });
+
+        $('#btn-update-infomation').on('click',function () {
+            var url = /*[[@{/profile/personinfo}]]*/'';
+            $('#modal').load(url, function () {
+                $('#update-personinfo-modal').modal('toggle')
+            });
+        })
+    </script>
+    <script th:src="@{/js/education.js}"></script>
+    <script th:src="@{/js/person-infomation.js}"></script>
+</th:block>
+</body>
+</html>

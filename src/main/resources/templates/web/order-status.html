@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/web.html}"
+      lang = "en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="p-t-20">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <th:block th:if="${#strings.equals(param.vnp_ResponseCode,'00')}">
+                        <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
+                            <span class="badge badge-pill badge-success">Success</span>
+                            Thanh toán thành công. Từ giờ, bạn có thể sử dụng chức năng của VIP
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                    </th:block>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="card">
+                        <div class="card-header">
+                            Thông tin thanh toán
+                        </div>
+                        <div class="card-body card-block">
+                            <p>Mã giao dịch: <strong th:text="${param.vnp_TransactionNo}"></strong></p>
+                            <p>Số tiền thanh toán: <strong th:text="${#strings.substring(param.vnp_Amount,0,5)}+'đ'"></strong></p>
+                            <p>Nội dung thanh toán: <strong th:text="${param.vnp_OrderInfo}"></strong></p>
+                            <th:block th:with=" date = ${#dates.create(#strings.substring(param.vnp_PayDate,0,4),#strings.substring(param.vnp_PayDate,4,6),#strings.substring(param.vnp_PayDate,6,8),#strings.substring(param.vnp_PayDate,8,10),#strings.substring(param.vnp_PayDate,10,12),#strings.substring(param.vnp_PayDate,12,14))}" >
+                                <p>Thời gian nộp tiền: <strong th:text="${#dates.format(date,'HH:mm:ss dd-MM-yyyy')}"></strong></p>
+                            </th:block>
+
+                        </div>
+                        <div class="card-footer">
+                            <a th:href="@{/}" class="btn btn-primary btn-sm">
+                                <i class="fa fa-dot-circle-o"></i> Quay lại trang chủ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="modal fade" id="save-education-modal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mediumModalLabel">Thêm học vấn</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <form id="form-save-education" th:object="${educationDetail}" method="post" class="form-horizontal">
+                            <input id="profile-id" type="hidden" name="profile.id" th:value="${session.account.profile.id}">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="schoolName" class=" form-control-label">Trường học</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" th:field="*{schoolName}" id="schoolName"  placeholder="Nhập tên trường học..." class="form-control">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="startAt" class=" form-control-label">Ngày bắt đầu</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="startAt" th:field="*{startAt}"  placeholder="YYYY-MM-DD" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="endAt" class=" form-control-label">Ngày kết thúc</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" th:field="*{endAt}" id="endAt"  placeholder="YYYY-MM-DD" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="description" class=" form-control-label">Mô tả</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <textarea id="description" th:field="*{description}" rows="3" placeholder="Content..." class="form-control"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                <button id="btn-save-education" type="button" class="btn btn-primary">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

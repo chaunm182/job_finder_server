@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/web.html}"
+      lang = "en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div layout:fragment="content">
+
+
+    <section class="p-t-20">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                    <div class="card border border-primary">
+                        <div class="card-header text-center">
+                            <strong class="card-title">Gói thường</strong>
+                            <h4 class="text text-info">Miễn phí</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text"><i class="fa fa-check-square-o"></i> Chỉnh sửa profile cá nhân</p>
+                            <p class="card-text"><i class="fa fa-check-square-o"></i> Tìm kiếm việc làm</p>
+                            <p class="card-text"><i class="fa fa-check-square-o"></i> Ứng tuyển việc làm</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border border-primary">
+                        <div class="card-header text-center">
+                            <strong class="card-title">Gói VIP</strong>
+                            <h4 class="text text-info">29.000đ - Life time</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text"><i class="fa fa-check-square-o"></i> Chỉnh sửa profile cá nhân</p>
+                            <p class="card-text"><i class="fa fa-check-square-o"></i> Tìm kiếm việc làm</p>
+                            <p class="card-text"><i class="fa fa-check-square-o"></i> Ứng tuyển việc làm</p>
+                            <p class="card-text"><i class="fa fa-check-square-o"></i> Đăng ký quan tâm việc làm</p>
+                            <p class="card-text"><i class="fa fa-check-square-o"></i> Gửi mail thông báo khi có việc làm phù hợp</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a th:href="@{/upgrade-vip/process-upgrade}" class="btn btn-outline-success">
+                                 Nâng cấp ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

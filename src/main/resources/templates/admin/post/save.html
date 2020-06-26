@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin.html}"
+      lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm tin tuyển dụng</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <th:block th:if="${param.id}">
+                    Cập nhật bài viết
+                </th:block>
+                <th:block th:unless="${param.id}">
+                    Đăng tin tuyển dụng mới
+                </th:block>
+
+            </div>
+            <div class="card-body card-block">
+                <th:block th:if="${param.success}">
+                    <div class="alert alert-success" role="alert">
+                        Lưu bài viết thành công
+                    </div>
+                </th:block>
+                <th:block th:if="${param.error}">
+                    <div class="alert alert-danger" role="alert">
+                        Có lỗi xảy ra
+                    </div>
+                </th:block>
+                <form id="post-form" th:object="${post}" th:action="@{/admin/post/save}" method="post" class="form-horizontal">
+                    <input th:if="${param.id}" type="hidden" th:field="*{id}">
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="company" class=" form-control-label">Tên công ty</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <input type="hidden" th:field="*{company.id}">
+                            <input type="text" id="company" th:field="*{company.name}" disabled class="form-control">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="jobCategories" class=" form-control-label">Chọn ngành nghề</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <select id="jobCategories" th:field="*{jobCategory}"  class="form-control">
+                                <th:block th:each="category : ${jobCategories}">
+                                    <option th:value="${category.id}" th:text="${category.name}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="jobName" class=" form-control-label">Tên công việc</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <input type="text" th:field="*{jobName}" id="jobName" placeholder="Nhập tên công việc..." class="form-control">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="amount" class=" form-control-label">Số lượng cần tuyển</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <input type="text" id="amount" th:field="*{amount}" placeholder="Nhập số lượng cần tuyển dụng..." class="form-control">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="address" class=" form-control-label">Địa chỉ làm việc</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <input type="text" id="address" th:field="*{address}" placeholder="Nhập địa chỉ..." class="form-control">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="minSalary" class=" form-control-label">Lương tối thiểu</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <input type="text" id="minSalary" th:field="*{minSalary}" placeholder="Nhập lương tối thiểu(ví dụ: 5000000)" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="maxSalary" class=" form-control-label">Lương tối đa</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <input type="text" id="maxSalary" th:field="*{maxSalary}" placeholder="Nhập lương tối đa(ví dụ: 10000000)" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="experience" class=" form-control-label">Yêu cầu kinh nghiệm</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <input type="text" id="experience" th:field="*{experience}" placeholder="Yêu cầu kinh nghiệm (ví dụ: 1 năm, 2 năm,...)" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="description" class=" form-control-label">Mô tả công việc</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <textarea id="description" th:field="*{description}" rows="9" placeholder="Mô tả công việc..." class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="requirement" class=" form-control-label">Yêu cầu công việc</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <textarea id="requirement" th:field="*{requirement}" rows="9" placeholder="Yêu cầu công việc..." class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="benefit" class=" form-control-label">Quyền lợi công việc</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <textarea id="benefit" th:field="*{benefit}" rows="9" placeholder="Quyền lợi công việc..." class="form-control"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button type="button" id="save" class="btn btn-primary btn-sm">
+                    <i class="fa fa-dot-circle-o"></i> Đăng bài viết mới
+                </button>
+                <button type="reset" class="btn btn-danger btn-sm">
+                    <i class="fa fa-ban"></i> Làm lại
+                </button>
+                <button type="reset" class="btn btn-warning btn-sm">
+                    <i class="fa fa-backward"></i> Trở về
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/post.js}"></script>
+</th:block>
+
+</body>
+</html>

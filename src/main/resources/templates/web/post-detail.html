@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/web.html}"
+      lang = "en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="au-breadcrumb2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="au-breadcrumb-content">
+                        <div class="au-breadcrumb-left">
+                        </div>
+                        <form class="au-form-icon--sm" action="" method="post">
+                            <input class="au-input--w435 au-input--style2" type="text" placeholder="Tìm kiếm việc làm...">
+                            <button class="au-btn--submit2" type="submit">
+                                <i class="zmdi zmdi-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="p-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <th:block th:if="${recruitmentDetail}">
+                        <div th:if="${recruitmentDetail.status.equalsIgnoreCase('Đang chờ duyệt')}" class="alert alert-info" role="alert">
+                            Bạn đã ứng tuyển thành công. Vui lòng đợi phản hồi từ nhà tuyển dụng
+                        </div>
+                        <div th:if="${recruitmentDetail.status.equalsIgnoreCase('Chấp thuận')}" class="alert alert-primary" role="alert">
+                            Chúc mừng! Bạn đã qua vòng gửi CV. Vui lòng phản hồi từ nhà tuyển dụng
+                        </div>
+                        <div th:if="${recruitmentDetail.status.equalsIgnoreCase('Đã tuyển dụng')}" class="alert alert-success" role="alert">
+                            Chúc mừng! Bạn đã được tuyển dụng vào công việc này
+                        </div>
+                        <div th:if="${recruitmentDetail.status.equalsIgnoreCase('Từ chối')}" class="alert alert-danger" role="alert">
+                            Rất tiếc! CV của bạn đã bị từ chối bởi nhà tuyển dụng. Vui lòng ứng tuyển công việc khác
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="p-t-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 style="color: #3868cd" th:text="${post.jobName}"></h3>
+                            <h4 th:text="${post.company.name}"></h4>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h4>Mô tả công việc</h4>
+                                    <p class="card-text" th:each="item : ${#strings.arraySplit(post.description,'-')}" th:text="'- '+${item}"></p>
+                                    <h4>Yêu cầu công việc</h4>
+                                    <p class="card-text" th:each="item : ${#strings.arraySplit(post.requirement,'-')}" th:text="'- '+${item}"></p>
+                                    <h4>Quyền lợi</h4>
+                                    <p class="card-text" th:each="item : ${#strings.arraySplit(post.benefit,'-')}" th:text="'- '+${item}"></p>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <section class="card">
+                                        <div class="card-header user-header alt bg-dark">
+                                            <p class="text-light">Thông tin việc làm</p>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">
+                                                <p class="text-dark">Lương tối thiểu: <span  th:text="${#numbers.formatDecimal(post.minSalary,0,'COMMA',0,'POINT')}+'đ'"></span></p>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <p class="text-dark">Lương tối đa: <span  th:text="${#numbers.formatDecimal(post.maxSalary,0,'COMMA',0,'POINT')}+'đ'"></span></p>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <p class="text-dark">Địa điểm làm việc: <span th:text="${post.address}"></span></p>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <p class="text-dark">Số lượng: <span th:text="${post.amount}+' người'"></span></p>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <p class="text-dark">Yêu cầu kinh nghiệm: <span th:text="${post.experience}"></span></p>
+                                            </li>
+                                        </ul>
+                                    </section>
+                                </div>
+                            </div>
+                            <th:block th:unless="${recruitmentDetail}">
+                                <div class="row p-t-10">
+                                    <div class="col-lg-12 text-center">
+                                        <a id="url-apply-job" th:href="@{/api/recruitmentDetails}"></a>
+                                        <input type="hidden" id="postId" name="postId" th:value="${post.id}">
+                                        <input type="hidden" id="userId" name="userId" th:value="${session.account.id}"/>
+                                        <button id="btn-apply-job" type="button" class="btn btn-outline-success">
+                                            <i class="fa fa-magic"></i>&nbsp; Ứng tuyển ngay</button>
+                                    </div>
+                                </div>
+                            </th:block>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/js/post-detail.js}"></script>
+</th:block>
+</body>
+</html>

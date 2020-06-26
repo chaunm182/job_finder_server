@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin.html}"
+      lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách ứng viên</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="col-md-12">
+        <!-- DATA TABLE -->
+        <h3 class="title-5 m-b-35" th:text="'Danh sách ứng viên cho công việc: '+${post.jobName}"> </h3>
+        <div class="table-responsive table-responsive-data2">
+            <table class="table table-data2">
+                <thead>
+                <tr>
+                    <th>Tên ứng viên</th>
+                    <th>Email</th>
+                    <th>Trạng thái</th>
+                    <th>Thời gian ứng tuyển</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each="candidate : ${candidates}">
+                        <tr class="tr-shadow">
+                            <td>
+                                <img style="display: inline" class="m-r-5" th:src="@{/images/profile_default.jpg}" width="30px" height="30px">
+                                <span th:text="${candidate.user.fullName.firstName}+' '+${candidate.user.fullName.lastName}"></span>
+                            </td>
+                            <td th:text="${candidate.user.account.email}">
+
+                            </td>
+                            <td>
+                                <span class="role admin" th:text="${candidate.status}"></span>
+                            </td>
+                            <td class="desc" th:text="${#dates.format(candidate.applyAt,'HH:mm:ss dd-MM-yyyy')}"></td>
+                            <td>
+                                <div class="table-data-feature">
+                                    <a target="_blank" th:href="@{/admin/candidates/profile(id=${candidate.user.id})}" class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xem profile ứng viên">
+                                        <i class="zmdi zmdi-account"></i>
+                                    </a>
+                                    <button onclick="loadModal(this)" th:user-id="${candidate.user.id}" class="item" data-toggle="modal" data-target="#mediumModal" title="" data-original-title="Cập nhật trạng thái">
+                                        <i class="zmdi zmdi-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="spacer"></tr>
+                    </th:block>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- END DATA TABLE -->
+    </div>
+</div>
+
+<div id="update-modal" layout:fragment="modal"></div>
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        function loadModal(btn) {
+            var userId = $(btn).attr('user-id');
+            var postId = /*[[${post.id}]]*/'';
+            var url = /*[[@{/admin/candidates/update-form}]]*/'';
+            url+=('?userId='+userId+'&postId='+postId);
+            $('#update-modal').load(url,function () {
+                $('#update-candidate-modal').modal('toggle');
+            });
+        }
+    </script>
+
+    <script th:inline="javascript">
+        $('#update-modal').on('click','#btn-save-recruitment',function () {
+            var data = {};
+            data['id'] = $('#id').val();
+            data['status'] = $('#status').val();
+            data['applyAt'] = $('#applyAt').val();
+            data['user'] = {
+                id: $('#userId').val()
+            }
+            data['post'] = {
+                id : $('#postId').val()
+            }
+
+            var url = /*[[@{/api/recruitmentDetails}]]*/'';
+            var urlReload = /*[[@{/admin/candidates}]]*/'';
+            urlReload+=('?postId='+$('#postId').val());
+
+            $.ajax({
+                url : url,
+                type: 'put',
+                contentType : 'application/json',
+                data : JSON.stringify(data),
+                dataType: 'json',
+                success: function (res) {
+                    if(res.id){
+                        $(location).attr('href',urlReload);
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+            })
+        });
+    </script>
+</th:block>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="modal fade" id="update-personinfo-modal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mediumModalLabel">Cập nhật thông tin cá nhân</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <form th:object="${user}" th:action="@{/api/users}" id="form-update-infomation" method="post" class="form-horizontal">
+                            <input type="hidden" th:field="*{id}" id="userId">
+                            <input type="hidden" th:field="*{profile.id}" id="profileId">
+                            <input type="hidden" th:field="*{address.id}" id="addressId">
+                            <input type="hidden" th:field="*{account.id}" id="accountId"/>
+                            <input type="hidden" th:field="*{fullName.id}" id="fullNameId"/>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="firstName" class=" form-control-label">Họ và tên đệm</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" th:field="*{fullName.firstName}" id="firstName"  placeholder="Nhập họ và tên đệm..." class="form-control">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="lastName" class=" form-control-label">Tên</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="lastName" th:field="*{fullName.lastName}"  placeholder="Nhập tên..." class="form-control">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="position"  class=" form-control-label">Vị trí làm việc</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="position" th:field="*{profile.position}" placeholder="Nhập vị trí làm việc..." class="form-control">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="phone" class=" form-control-label">Số điện thoại</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="tel" id="phone" th:field="*{phone}"  placeholder="Nhập số điện thoại..." class="form-control">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="addressDetail" class=" form-control-label">Địa chỉ hiện tại</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="addressDetail" th:field="*{address.addressDetail}"  placeholder="Nhập địa chỉ..." class="form-control">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="street" class=" form-control-label">Tên đường</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="street"  th:field="*{address.street}" placeholder="Nhập tên đường..." class="form-control">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="district" class=" form-control-label">Tên quận/huyện</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="district" th:field="*{address.district}"  placeholder="Nhập quận/huyện..." class="form-control">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="city" class=" form-control-label">Thành phố</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="city" th:field="*{address.city}"  placeholder="Nhập tên thành phố..." class="form-control">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                <button id="btn-save-person-info" type="button" class="btn btn-primary">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

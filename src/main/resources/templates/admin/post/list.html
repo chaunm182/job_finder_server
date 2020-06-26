@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin.html}"
+      lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách bài viết</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="col-md-12">
+        <th:block th:if="${param.delete_success}">
+            <div class="alert alert-success" role="alert">
+                Xóa bài viết thành công
+            </div>
+        </th:block>
+        <th:block th:if="${param.delete_error}">
+            <div class="alert alert-danger" role="alert">
+                Có lỗi xảy ra
+            </div>
+        </th:block>
+        <!-- DATA TABLE -->
+        <h3 class="title-5 m-b-35">Danh sách bài đăng tuyển dụng</h3>
+        <div class="table-responsive table-responsive-data2">
+            <table class="table table-data2">
+                <thead>
+                <tr>
+                    <th>
+                        <label class="au-checkbox">
+                            <input type="checkbox">
+                            <span class="au-checkmark"></span>
+                        </label>
+                    </th>
+                    <th>Tên công việc</th>
+                    <th>Ngành nghề</th>
+                    <th>Số lượng</th>
+                    <th>Địa điểm</th>
+                    <th>Lương tối thiểu</th>
+                    <th>Lương tối đa</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="post : ${posts}">
+                    <tr class="tr-shadow">
+                        <td>
+                            <label class="au-checkbox">
+                                <input type="checkbox">
+                                <span class="au-checkmark"></span>
+                            </label>
+                        </td>
+                        <td  class="desc" th:text="${post.jobName}"></td>
+                        <td>
+                            <span th:text="${post.jobCategory.name}"></span>
+                        </td>
+                        <td class="desc" th:text="${post.amount}"></td>
+                        <td th:text="${post.address}"></td>
+                        <td th:text="${post.minSalary}"></td>
+                        <td th:text="${post.maxSalary}"></td>
+                        <td>
+                            <div class="table-data-feature">
+                                <a th:href="@{/admin/candidates(postId=${post.id})}" class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xem danh sách ứng viên">
+                                    <i class="zmdi zmdi-accounts-list"></i>
+                                </a>
+                                <a th:href="@{/admin/post/save(id=${post.id})}" class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sửa bài viết">
+                                    <i class="zmdi zmdi-edit"></i>
+                                </a>
+                                <a th:href="@{/admin/post/delete(id=${post.id})}" class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xóa bài viết">
+                                    <i class="zmdi zmdi-delete"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+        <!-- END DATA TABLE -->
+    </div>
+</div>
+<th:block layout:fragment="script">
+
+</th:block>
+
+</body>
+</html>

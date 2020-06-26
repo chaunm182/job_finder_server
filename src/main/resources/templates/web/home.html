@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/web.html}"
+      lang = "en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="au-breadcrumb2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="au-breadcrumb-content">
+                        <div class="au-breadcrumb-left">
+                        </div>
+                        <form class="au-form-icon--sm" action="" method="post">
+                            <input class="au-input--w435 au-input--style2" type="text" placeholder="Tìm kiếm việc làm...">
+                            <button class="au-btn--submit2" type="submit">
+                                <i class="zmdi zmdi-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END BREADCRUMB-->
+
+    <!-- WELCOME-->
+    <section class="welcome p-t-10">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 th:if="${session.account}" class="title-4">Chào mừng trở lại,
+                        <span th:text="${session.account.fullName.lastName}"></span>
+                    </h1>
+                    <hr class="line-seprate">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END WELCOME-->
+
+    <!-- STATISTIC-->
+    <section class="statistic statistic2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-3">
+                    <div class="statistic__item statistic__item--blue">
+                        <h2 class="number">1,086</h2>
+                        <span class="desc">công việc được đăng</span>
+                        <div class="icon">
+                            <i class="zmdi zmdi-calendar-note"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="statistic__item statistic__item--green">
+                        <h2 class="number">1500</h2>
+                        <span class="desc">ứng viên ứng tuyển thành công</span>
+                        <div class="icon">
+                            <i class="zmdi zmdi-account-o"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="statistic__item statistic__item--red">
+                        <h2 class="number">10000</h2>
+                        <span class="desc">người sử dụng công cụ tạo profile</span>
+                        <div class="icon">
+                            <i class="zmdi zmdi-money"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="statistic__item statistic__item--orange">
+                        <h2 class="number">111</h2>
+                        <span class="desc">Doanh nghiệp đăng ký tuyển dụng</span>
+                        <div class="icon">
+                            <i class="zmdi zmdi-shopping-cart"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- END STATISTIC-->
+    <section class="p-t-20">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <!-- USER DATA-->
+                    <div class="user-data m-b-30">
+                        <h3 class="title-3 m-b-30">
+                            <i class="zmdi zmdi-account-calendar"></i>Việc làm mới đăng</h3>
+                        <div class="table-responsive table-data">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <td>Tên công việc</td>
+                                    <td>Lương tối thiểu</td>
+                                    <td>Lương tối đa</td>
+                                    <td>Địa điểm làm việc</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <th:block th:each="post : ${posts}">
+                                        <tr>
+                                            <td>
+                                                <div class="table-data__info">
+                                                    <h5>
+                                                        <a th:href="@{/post(id=${post.id})}" th:text="${post.jobName}"></a>
+                                                    </h5>
+                                                    <span>
+                                                        <a th:text="${post.company.name}"></a>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td th:text="${#numbers.formatDecimal(post.minSalary,0,'COMMA',0,'POINT')}+'đ'"></td>
+                                            <td th:text="${#numbers.formatDecimal(post.maxSalary,0,'COMMA',0,'POINT')}+'đ'"></td>
+                                            <td>
+                                                <span class="role user" th:text="${post.address}"></span>
+                                            </td>
+                                        </tr>
+                                    </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="user-data__footer">
+                            <button class="au-btn au-btn-load">Xem thêm</button>
+                        </div>
+                    </div>
+                    <!-- END USER DATA-->
+                </div>
+                <div class="col-lg-3">
+                    <img th:src="@{/images/banner.png}" width="100%" height="350px"/>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>
