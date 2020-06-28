@@ -1,5 +1,7 @@
 package com.example.jobfinder.entity.profile;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -14,9 +16,11 @@ public class WorkExperience {
     private String companyName;
 
     @Column(name = "start_at")
+    @JsonFormat(pattern = "MMM dd, yyyy HH:mm:ss a")
     private Date startAt;
 
     @Column(name = "end_at")
+    @JsonFormat(pattern = "MMM dd, yyyy HH:mm:ss a")
     private Date endAt;
 
     @Column(name = "description")

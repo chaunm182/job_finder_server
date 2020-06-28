@@ -1,5 +1,7 @@
 package com.example.jobfinder.entity.profile;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -18,6 +20,7 @@ public class Prize {
     private String organization;
 
     @Column(name = "receive_time")
+    @JsonFormat(pattern = "MMM dd, yyyy HH:mm:ss a")
     private Date receiveTime;
 
     @ManyToOne
