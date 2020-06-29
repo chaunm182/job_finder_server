@@ -14,6 +14,12 @@ public class RecruitmentDetailRestController {
     @Autowired
     private RecruitmentDetailService recruitmentDetailService;
 
+    @GetMapping("/recruitmentDetails/{postId},{userId}")
+    public RecruitmentDetail findByPostIdAndUserId(@PathVariable("postId")Integer postId,
+                                                   @PathVariable("userId")Integer userId){
+        return recruitmentDetailService.findByPostIdAndUserId(postId,userId);
+    }
+
     @PostMapping("/recruitmentDetails")
     public RecruitmentDetail applyJob(@RequestBody RecruitmentDetail recruitmentDetail){
         recruitmentDetail.setApplyAt(new Date(System.currentTimeMillis()));
