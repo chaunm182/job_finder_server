@@ -35,7 +35,7 @@ public class VnPayConfiguration {
             }
         }
         String encoded = DigestUtils.sha256Hex(HASH_SECRECT+hashData.toString());
-        String query = hashData.toString()+"&vnp_SecureHashType=SHA256&vnp_SecureHash="+encoded.toUpperCase();
+        String query = hashData.toString()+"&vnp_SecureHashType="+SECURE_HASH_TYPE+"&vnp_SecureHash="+encoded.toUpperCase();
         return query;
     }
 

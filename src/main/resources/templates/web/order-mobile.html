@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanh toán thành công</title>
+    <style>
+        .success-page{
+            max-width:300px;
+            display:block;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            top: 50%;
+            transform: perspective(1px) translateY(50%)
+        }
+        .success-page img{
+            max-width:62px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .btn-view-orders{
+            display: block;
+            border:1px solid #0099ff;
+            width:100px;
+            margin: 0 auto;
+            margin-top: 45px;
+            padding: 10px;
+            color:#fff;
+            background-color:#0099ff;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+        h2{
+            color:#0099ff;
+            margin-top: 25px;
+
+        }
+        a{
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="success-page">
+    <img  src="http://share.ashiknesin.com/green-checkmark.png" class="center" alt="" />
+    <h2>Thanh toán thành công !</h2>
+    <p>Mã giao dịch: <strong th:text="${param.vnp_TransactionNo}"></strong></p>
+    <p>Số tiền thanh toán: <strong th:text="${#strings.substring(param.vnp_Amount,0,5)}+'đ'"></strong></p>
+    <p>Nội dung thanh toán: <strong th:text="${param.vnp_OrderInfo}"></strong></p>
+    <th:block th:with=" date = ${#dates.create(#strings.substring(param.vnp_PayDate,0,4),#strings.substring(param.vnp_PayDate,4,6),#strings.substring(param.vnp_PayDate,6,8),#strings.substring(param.vnp_PayDate,8,10),#strings.substring(param.vnp_PayDate,10,12),#strings.substring(param.vnp_PayDate,12,14))}" >
+        <p>Thời gian nộp tiền: <strong th:text="${#dates.format(date,'HH:mm:ss dd-MM-yyyy')}"></strong></p>
+    </th:block>
+    <a href="#" class="btn-view-orders" onclick="closePayActivity()">Hoàn tất</a>
+</div>
+</div>
+
+<script type="text/javascript">
+    function closePayActivity() {
+        Android.closePayActivity();
+    }
+</script>
+</body>
+</html>

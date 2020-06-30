@@ -41,4 +41,9 @@ public class AccountServiceImpl implements AccountService {
         Optional<Account> accountOptional = accountRepository.findAccountByUsername(username);
         return accountOptional.orElse(null);
     }
+
+    @Override
+    public Account save(Account account) {
+        return accountRepository.save(account);
+    }
 }
