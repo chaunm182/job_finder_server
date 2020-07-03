@@ -24,6 +24,7 @@ public class EducationRestController {
         return educationService.findById(id);
     }
 
+
     @PostMapping("/educations")
     public Education addEducation(@RequestBody Education education){
         return educationService.save(education);

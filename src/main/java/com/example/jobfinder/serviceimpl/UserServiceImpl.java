@@ -42,4 +42,10 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional =  userRepository.findUserByAccountId(accountId);
         return userOptional.orElse(null);
     }
+
+    @Override
+    public User findByEmail(String email) {
+        Optional<User> userOptional =  userRepository.findUserByAccountEmail(email);
+        return userOptional.orElse(null);
+    }
 }
